@@ -1,0 +1,9 @@
+# Nur für lokale Entwicklung, NICHT auf dem Hetzner-Server verwenden.
+# Start: docker compose -f docker-compose.yml -f docker-compose.dev.yml up -d
+# Öffnet den Postgres-Port lokal, damit DBeaver/TablePlus/psql sich verbinden können.
+version: "3.9"
+
+services:
+  db:
+    ports:
+      - "127.0.0.1:5433:5432"

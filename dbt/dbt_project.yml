@@ -1,0 +1,23 @@
+name: "luziferase_analytics"
+version: "1.0.0"
+config-version: 2
+
+profile: "luziferase_analytics"
+
+model-paths: ["models"]
+seed-paths: ["seeds"]
+
+models:
+  luziferase_analytics:
+    staging:
+      +materialized: view
+      +schema: staging
+    marts:
+      +materialized: table
+      +schema: marts
+
+# Woche 2 TODO:
+# - models/staging/stg_nowplaying_events.sql  (liest raw.nowplaying_events, dedupliziert)
+# - models/marts/fct_plays.sql                (eine Zeile pro tatsaechlichem Track-Play)
+# - models/marts/mart_listener_curve.sql       (Hoererzahl pro Stunde/Station)
+# - models/marts/mart_top_tracks.sql           (Top-Tracks pro Woche/Station)

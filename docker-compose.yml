@@ -1,0 +1,38 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: luziferase_analytics_db
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-luziferase_analytics}
+      POSTGRES_USER: ${POSTGRES_USER:-analytics}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    # Nur intern erreichbar (kein Host-Port-Mapping) -- Zugriff via `docker compose exec db psql ...`
+    # oder temporär via profiles.dev (siehe unten), falls lokaler DB-Client gebraucht wird.
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-analytics}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  api:
+    build: ./api
+    container_name: luziferase_analytics_api
+    restart: unless-stopped
+    env_file: .env
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      # Nur auf localhost binden -- nginx auf dem Host proxied von außen (siehe nginx/)
+      - "127.0.0.1:8100:8000"
+    volumes:
+      - ./api/app:/app/app:ro   # read-only Mount fuer schnelle Iteration; fuer Produktion entfernen
+
+volumes:
+  db_data:
