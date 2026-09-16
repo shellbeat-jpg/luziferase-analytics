@@ -30,7 +30,7 @@ services:
         condition: service_healthy
     ports:
       # Nur auf localhost binden -- nginx auf dem Host proxied von außen (siehe nginx/)
-      - "127.0.0.1:8100:8000"
+      - "127.0.0.1:18100:8100"
     volumes:
       - ./api/app:/app/app:ro   # read-only Mount fuer schnelle Iteration; fuer Produktion entfernen
 
