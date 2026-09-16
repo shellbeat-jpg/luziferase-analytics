@@ -76,10 +76,13 @@ Hetzner-Server nicht verwenden, dort stattdessen `docker compose exec db psql ..
 
 - Separates Verzeichnis, z. B. `/opt/luziferase-analytics` — eigenständiges Repo,
   analog zu Breviarium, kein Eingriff in die bestehende Luziferase-Bind-Mount-Struktur.
-- `api`-Service bindet nur an `127.0.0.1:8100` — Zugriff von außen ausschließlich
-  über nginx (`nginx/analytics_luziferase.conf.example`).
-- Vorschlag Subdomain: `analytics.luziferase.de` (eigenes Let's-Encrypt-Zertifikat,
-  wie bei `cloud.breviarium.de` — nicht das bestehende Luziferase-Zertifikat wiederverwenden).
+- API intern: Container-Port `8000`.
+- Host-Binding: `127.0.0.1:18100`.
+- nginx upstream: `http://127.0.0.1:18100`.
+- Public URL: `https://analytics.luziferase.de`.
+- Zugriff von außen ausschließlich über nginx (`nginx/analytics_luziferase.conf.example`).
+- Eigenes Let's-Encrypt-Zertifikat für `analytics.luziferase.de`; nicht das bestehende
+  Luziferase-Zertifikat wiederverwenden.
 
 ## Nächste Schritte (Woche 2)
 
@@ -88,3 +91,4 @@ Hetzner-Server nicht verwenden, dort stattdessen `docker compose exec db psql ..
    (aktuell schreibt der Worker jede Poll-Runde, auch wenn sich der Track nicht geändert hat)
 3. `dbt/models/marts/mart_listener_curve.sql` — Hörerzahl pro Stunde/Station
 4. Last.fm-Client (`app/ingestion/lastfm_client.py`) für die echte Gewichtungskurve
+
