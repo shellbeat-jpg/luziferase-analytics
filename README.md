@@ -41,7 +41,7 @@ docker compose up -d
 **Erfolgskriterium:**
 ```bash
 docker compose ps                     # beide Services "healthy"/"running"
-curl -s http://localhost:8100/health   # {"status":"ok","database":true}
+curl -s http://localhost:18100/health   # {"status":"ok","database":true}
 ```
 
 **Rollback:**
