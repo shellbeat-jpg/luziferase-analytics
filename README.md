@@ -1,6 +1,6 @@
 # Luziferase Analytics Dashboard
 
-Portfolio-Referenzprojekt: Analytics-Pipeline für Luziferase Radio.
+Portfolio-Referenzprojekt: Analytics-Pipeline für Azuracast Radio.
 Stack: FastAPI + Pydantic (async) → Postgres → dbt → Next.js (Woche 4).
 
 **Status Woche 1:** Mock-API (bildet AzuraCast Now-Playing-API nach) + async
